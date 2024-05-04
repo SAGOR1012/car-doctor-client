@@ -13,5 +13,6 @@ Currently, two official plugins are available:
       4.flowbite
       5.react icons
       6.firebase
+      7.sweetAlert (for showing alert)
   -->
   <!-- -->

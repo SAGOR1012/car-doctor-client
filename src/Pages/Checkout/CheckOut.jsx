@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
-import { namedQuery } from "firebase/firestore";
+// import Swal from "sweetalert2";
 
 const CheckOut = () => {
     const service = useLoaderData()
-    const { title, price } = service;
+    const { title, price, image, _id } = service;
 
     /* login kora user er data pawar jonne eita use kora hoyeche  */
     const { user } = useContext(AuthContext)
@@ -20,16 +20,35 @@ const CheckOut = () => {
         const price = form.price.value;
         const serevice_titile = form.serevice_titile.value;
 
-        const orderDetails = {
+        const bookingDetails = {
             customerName: name,
             email: email,
             phone: phone,
             serevice_titile: serevice_titile,
+            serevice_id: _id,
             price: price,
             date: date,
+            image,
 
         }
-        console.log(orderDetails);
+        console.log(bookingDetails);
+
+        /* data pathate hobe fetch kore  */
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(bookingDetails)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                if (data.insertedId) {
+                    alert('order in confirmed')
+                }
+                console.log(data);
+            })
 
     }
     return (
