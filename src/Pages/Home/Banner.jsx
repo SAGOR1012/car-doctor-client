@@ -8,7 +8,7 @@ const Banner = () => {
     <div className="carousel w-full">
       <div
         id="slide1"
-        className="carousel-item relative w-full h-[600px] space-y-7">
+        className="carousel-item relative w-full h-[600px] space-y-7 transition">
         <img src={image1} className="w-full rounded-xl" />
 
         <div className="absolute   rounded-xl h-full gap-4 flex items-center left-0  bottom-0  bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)]">

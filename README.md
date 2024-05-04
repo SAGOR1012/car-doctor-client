@@ -11,5 +11,7 @@ Currently, two official plugins are available:
       2.daisyUi
       3.react router
       4.flowbite
+      5.react icons
+      6.firebase
   -->
   <!-- -->
