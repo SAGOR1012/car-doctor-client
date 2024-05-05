@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import app from "../../firebase.config";
 import { AiFillNotification } from "react-icons/ai";
 
@@ -23,6 +23,11 @@ const AuthProvider = ({ children }) => {
     const singInUser = (email, password) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
+    }
+    /* sign out  */
+    const logOut = () => {
+        setLoading(true);
+        return signOut(auth)
 
     }
 
@@ -40,7 +45,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         loading,
-        createUser, singInUser
+        createUser, singInUser, logOut
     };
 
     return (

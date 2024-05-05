@@ -1,16 +1,35 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/icons/logo.svg";
+import { AuthContext } from "../../Routes/Provider/AuthProvider";
+import { useContext } from "react";
 const Navbar = () => {
+  /* context theke user information anar jonne use kora hoyeche */
+  const { user, logOut } = useContext(AuthContext)
+
   const navItems = (
-    <>
+    < >
       <li>
         <Link to="/">Home</Link>
       </li>
       <li>
-        <Link to="/">About</Link>
+        <Link to="/contact">Contact Us</Link>
       </li>
+      <li><Link to="/userbookings">My Bookings</Link></li>
+      {/* {
+        user?.email ? <li>
+        </li> : <li><Link to='/login'>My Bookings</Link></li>
+      } */}
     </>
   );
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => { })
+      .catch((error) => {
+        console.log(error);
+
+      })
+  }
   return (
     <div className="navbar bg-base-100 h-28 mb-4">
       <div className="navbar-start">
@@ -41,10 +60,15 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navItems}</ul>
+        <ul className="menu menu-horizontal px-1 font-bold ">{navItems}</ul>
       </div>
-      <div className="navbar-end">
-        <button className="btn btn-outline btn-error">Appointment</button>
+      <div className="navbar-end ">
+        {
+          user?.email ?
+            < button onClick={handleLogOut} className="btn btn-outline btn-error font-bold">Log out</button>
+            :
+            <Link to='/login'><button className="btn btn-outline btn-error font-bold">Log in</button></Link>
+        }
       </div>
     </div>
   );

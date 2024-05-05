@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import img from "../../assets/images/login/login.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
+import Swal from "sweetalert2";
 const Login = () => {
 
   /* create a context for call sig in function   */
@@ -18,14 +19,22 @@ const Login = () => {
     singInUser(email, password)
       .then((result) => {
         console.log(result.user);
+        /* success login alert */
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Successfully Login",
+          showConfirmButton: false,
+          timer: 1500
+        });
       })
       .catch((error) => {
         console.log(error);
 
       })
 
-
   };
+
   return (
     <div>
       <div></div>
