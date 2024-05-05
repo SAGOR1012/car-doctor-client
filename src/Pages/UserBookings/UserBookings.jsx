@@ -45,7 +45,7 @@ const UserBookings = () => {
                             /* delete success alert */
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "Your coffee has been deleted.",
+                                text: "Your service has been deleted.",
                                 icon: "success",
                             });
 
@@ -62,7 +62,9 @@ const UserBookings = () => {
     }
     return (
         <div>
-            <h1 className="text-5xl"> user booking list : {userBookings.length}</h1>
+            <div className=" flex items-center justify-center p-4 font-bold text-red-500 mt-5">
+                <h1 className="text-2xl lg:text-5xl"> My Total Booking No : {userBookings.length}</h1>
+            </div>
             {/* Table */}
             <div className="overflow-x-auto">
                 <table className="table">

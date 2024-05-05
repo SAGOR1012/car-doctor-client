@@ -1,12 +1,16 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createContext, useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from "../../firebase.config";
-import { AiFillNotification } from "react-icons/ai";
+import { GoogleAuthProvider } from "firebase/auth";
 
-/* bivinno jahay same jinis use korar jonne context baano hoyche */
-export const AuthContext = createContext();
+
 /* firebase rtheke anahoyeche  */
 const auth = getAuth(app);
+/* bivinno jahay same jinis use korar jonne context baano hoyche */
+export const AuthContext = createContext();
+
+/* Google Provider for google login */
+const googleProvider = new GoogleAuthProvider();
 
 /* ei provider j use korbe tar peter moddhe ja thakbe sita ei children er maddome ekhane use kore call kora jabe */
 const AuthProvider = ({ children }) => {
@@ -24,11 +28,24 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
+
+    /* Google sign in  */
+
+    const signInWithGoogle = () => {
+        setLoading(true)
+        return signInWithPopup(auth, googleProvider);
+    };
+
     /* sign out  */
     const logOut = () => {
         setLoading(true);
         return signOut(auth)
 
+    }
+
+    /* Forget password */
+    const forgetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email)
     }
 
     //*Current user k dhore rakhe screen a. page load dileo user theke jay .sei jonne eita use koa hoyeche 
@@ -45,7 +62,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         loading,
-        createUser, singInUser, logOut
+        createUser, singInUser, signInWithGoogle, logOut, forgetPassword
     };
 
     return (

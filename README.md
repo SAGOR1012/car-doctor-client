@@ -14,5 +14,6 @@ Currently, two official plugins are available:
       5.react icons
       6.firebase
       7.sweetAlert (for showing alert)
+      8.firebase init
   -->
   <!-- -->

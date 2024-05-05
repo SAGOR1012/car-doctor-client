@@ -1,19 +1,31 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import img from "../../assets/images/login/login.svg";
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
 import Swal from "sweetalert2";
+
 const Login = () => {
 
   /* create a context for call sig in function   */
-  const { singInUser } = useContext(AuthContext)
+  const { singInUser, signInWithGoogle, forgetPassword } = useContext(AuthContext)
+
+  /* display error */
+  const [loginError, setLoginError] = useState('')
+
+  /* forget password er jonne lagbe  */
+  const emailRef = useRef(null);
 
   const handleLogIn = (e) => {
+
+
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    /* reset error */
+    setLoginError('')
 
     /* sign in  user function */
     singInUser(email, password)
@@ -30,14 +42,62 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
+        setLoginError(error.message)
 
       })
 
   };
 
+  /* Google login in function  */
+
+  const hangleGoogleSign = () => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  /* forget password function section */
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+    console.log(email);
+    if (!email) {
+      setLoginError('please provide an email')
+      return;
+    }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setLoginError('please write a valid email')
+      return;
+    }
+
+    /* send validations */
+    forgetPassword(email)
+      .then(result => {
+
+        Swal.fire({
+          position: "center",
+          icon: "info",
+          title: "Check Your Email",
+          showConfirmButton: false,
+          timer: 20000
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoginError(error.message)
+
+      })
+
+
+
+  }
+
   return (
     <div>
-      <div></div>
+
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="text-center lg:text-left w-1/2 mr-12  ">
@@ -58,6 +118,7 @@ const Login = () => {
                   <input
                     type="text"
                     name="email"
+                    ref={emailRef}
                     id="email"
                     placeholder="email"
                     className="w-full px-4 py-3 rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-default-600"
@@ -77,7 +138,7 @@ const Login = () => {
                     className="w-full px-4 py-3 rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-default-600"
                   />
                   <div className="flex justify-end text-xs dark:text-gray-600">
-                    <a rel="noopener noreferrer" href="#">
+                    <a onClick={handleForgetPassword} rel="noopener noreferrer" href="#">
                       Forgot Password?
                     </a>
                   </div>
@@ -88,6 +149,11 @@ const Login = () => {
                   value="Login"
                 />
               </form>
+              {/* error message */}
+              {
+                loginError && <p className=" text-red-500">{loginError}</p>
+              }
+              {/* Social login  */}
               <div className="flex items-center pt-4 space-x-1">
                 <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
                 <p className="px-3 text-sm dark:text-gray-600">
@@ -95,8 +161,9 @@ const Login = () => {
                 </p>
                 <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
               </div>
+              {/* Google login */}
               <div className="flex justify-center space-x-4">
-                <button
+                <button onClick={hangleGoogleSign}
                   aria-label="Log in with Google"
                   className="p-3 rounded-sm">
                   <svg
@@ -105,6 +172,7 @@ const Login = () => {
                     className="w-5 h-5 fill-current">
                     <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
                   </svg>
+
                 </button>
                 <button
                   aria-label="Log in with Twitter"
@@ -139,6 +207,7 @@ const Login = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

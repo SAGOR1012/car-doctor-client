@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const ServiceCard = ({ service }) => {
   const { _id, title, image, price } = service;
   return (
-    <div className="card w-96 bg-base-200 shadow-xl hover:scale-105 hover:transition">
+    <div className="card flex  w-96 bg-base-200 shadow-xl hover:scale-105 hover:transition">
       <figure className="px-10 pt-10">
         <img className="rounded-xl " src={image} alt="no image" />
       </figure>

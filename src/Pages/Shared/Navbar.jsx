@@ -62,7 +62,16 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 font-bold ">{navItems}</ul>
       </div>
-      <div className="navbar-end ">
+      <div className="navbar-end gap-3">
+
+        {/* avater */}
+
+        <div className="avatar">
+          <div className="w-12 rounded-full">
+            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          </div>
+        </div>
+
         {
           user?.email ?
             < button onClick={handleLogOut} className="btn btn-outline btn-error font-bold">Log out</button>

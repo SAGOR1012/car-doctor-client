@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
+import Swal from "sweetalert2";
 // import Swal from "sweetalert2";
 
 const CheckOut = () => {
@@ -45,7 +46,12 @@ const CheckOut = () => {
             .then(res => res.json())
             .then((data) => {
                 if (data.insertedId) {
-                    alert('order in confirmed')
+                    // alert('order in confirmed')
+                    Swal.fire({
+                        title: "Success",
+                        text: "Thank you booking",
+                        icon: "success",
+                    });
                 }
                 console.log(data);
             })
@@ -53,7 +59,9 @@ const CheckOut = () => {
     }
     return (
         <div>
-
+            <div className=" flex items-center justify-center p-4 font-bold text-red-500 mt-5">
+                <h1 className="text-2xl lg:text-5xl">Booking Information</h1>
+            </div>
             {/* form section */}
             <form onSubmit={handleBookOrder} className=" flex justify-center ">
 
@@ -72,7 +80,7 @@ const CheckOut = () => {
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Date</span>
+                                        <span className="label-text">Booking Date</span>
                                     </label>
                                     <input className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                                         type="date" name="date" id="" required />

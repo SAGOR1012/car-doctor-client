@@ -1,27 +1,65 @@
 import { Link } from "react-router-dom";
 import img from "../../assets/images/login/login.svg";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
+import Swal from "sweetalert2";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
+
 const SignUp = () => {
     /* create a context for call sigup function   */
     const { createUser } = useContext(AuthContext)
 
+    /* error message display te show koranor  jonne ei state use kora hoyeche */
+    const [signUpError, setSignUpError] = useState('')
+
     const handleSignUp = (e) => {
         e.preventDefault();
+
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
         console.log(name, email, password);
 
+        /* reset error message */
+        setSignUpError('');
+
+        /* password length */
+        if (password.length < 5) {
+            setSignUpError('minimum password length 5 or longer');
+            return;
+        }
         /*create a new user or Sign up  */
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
 
+                /* update profile */
+                updateProfile(result.user, {
+                    displayName: name
+                }).then(() => console.log('profile updated'))
+                    .catch((error) => {
+                        console.log(error);
+
+                    })
+
+                /* send verifications link in email */
+                sendEmailVerification(result.user) //current user = result.user
+                    /* success sign up alert */
+                    .then(() => {
+                        console.log("check your email");
+                        Swal.fire({
+                            position: "center",
+                            text: "Check Your Email",
+                            icon: "success",
+                            title: "Send a verification link ",
+                            showConfirmButton: false,
+                            timer: 50000
+                        });
+                    })
             }).catch((error) => {
                 console.log(error);
-
+                setSignUpError(error.message)
             })
 
     };
@@ -83,11 +121,7 @@ const SignUp = () => {
                                         required
                                         className="w-full px-4 py-3 rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-default-600"
                                     />
-                                    <div className="flex justify-end text-xs dark:text-gray-600">
-                                        <a rel="noopener noreferrer" href="#">
-                                            Forgot Password?
-                                        </a>
-                                    </div>
+
                                 </div>
                                 <input
                                     className="block btn rounded-xl bg-red-500 text-white w-full p-3 text-center "
@@ -95,6 +129,14 @@ const SignUp = () => {
                                     value="SignUp"
                                 />
                             </form>
+
+                            {/* error message */}
+                            {
+
+                                signUpError && <p className=" text-red-500">{signUpError}</p>
+
+                            }
+
                             <div className="flex items-center pt-4 space-x-1">
                                 <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
                                 <p className="px-3 text-sm dark:text-gray-600">
