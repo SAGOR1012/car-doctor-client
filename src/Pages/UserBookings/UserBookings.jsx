@@ -18,34 +18,46 @@ const UserBookings = () => {
             .then(data => setUserBookings(data));
     }, [])
 
-
     /* delete function  */
     const handleDelete = (id) => {
-        const porceed = confirm('Are you sure you want to delete it ?')
-        if (porceed) {
-            fetch(`http://localhost:5000/bookings/${id}`, {
-                method: "DELETE"
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.deletedCount > 0) {
 
-                        /* delete success alert */
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Delete Successfully",
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
+        //! confirmation alert for delete
 
-                        /* ui theke delte item clear kore dite hobe  */
-                        const remaining = userBookings.filter(booking => booking._id !== id)
-                        setUserBookings(remaining)
-                    }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to delete this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/bookings/${id}`, {
+                    method: "DELETE"
                 })
-        }
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.deletedCount > 0) {
+
+                            /* delete success alert */
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your coffee has been deleted.",
+                                icon: "success",
+                            });
+
+                            /* জেই কফি খুজতেছ সেই কফির আইডি বাদে অন্য জত আইডি আছে সব স্টেটের মদ্ধে সেভ করে রেখ্বে দাও */
+
+                            const remaining = userBookings.filter(booking => booking._id !== id)
+                            setUserBookings(remaining)
+                        }
+                    })
+            }
+        })
+        // const porceed = confirm('Are you sure you want to delete it ?')
 
     }
     return (
