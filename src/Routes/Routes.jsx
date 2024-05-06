@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp/SignUp";
 import CheckOut from "../Pages/Checkout/CheckOut";
 import UserBookings from "../Pages/UserBookings/UserBookings";
 import PrivetRoute from "./PrivetRoute";
+import ContactUs from "../Pages/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -27,11 +28,15 @@ const router = createBrowserRouter([
       {
         path: '/checkout/:id',
         element: <CheckOut></CheckOut>,
-        loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`)
+        loader: ({ params }) => fetch(`https://car-doctor-server-nine-brown.vercel.app/services/${params.id}`)
       },
       {
         path: '/userbookings',
         element: <PrivetRoute><UserBookings></UserBookings></PrivetRoute>
+      },
+      {
+        path: '/contact',
+        element: <ContactUs></ContactUs>
       }
 
     ],

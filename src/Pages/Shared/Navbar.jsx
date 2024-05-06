@@ -11,10 +11,11 @@ const Navbar = () => {
       <li>
         <Link to="/">Home</Link>
       </li>
+      <li><Link to="/userbookings">My Bookings</Link></li>
       <li>
         <Link to="/contact">Contact Us</Link>
       </li>
-      <li><Link to="/userbookings">My Bookings</Link></li>
+
       {/* {
         user?.email ? <li>
         </li> : <li><Link to='/login'>My Bookings</Link></li>

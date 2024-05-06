@@ -7,7 +7,7 @@ const UserBookings = () => {
     const { user } = useContext(AuthContext);
 
     /* login kora user sob bookigs list dekhanor jonne dynamic url use kora hoyeche */
-    const url = `http://localhost:5000/bookings?email=${user?.email}`
+    const url = `https://car-doctor-server-nine-brown.vercel.app/bookings?email=${user?.email}`
 
     /* login kora user jokhn booking dibe tokhn ei state er moddhe save hoye thakbe  */
     const [userBookings, setUserBookings] = useState([]);
@@ -34,7 +34,7 @@ const UserBookings = () => {
         }).then((result) => {
 
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/bookings/${id}`, {
+                fetch(`https://car-doctor-server-nine-brown.vercel.app/bookings/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
