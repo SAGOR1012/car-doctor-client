@@ -142,7 +142,7 @@ const SignUp = () => {
                                 <Link to='/login'
                                     rel="noopener noreferrer"
                                     href="#"
-                                    className="underline dark:text-gray-800">
+                                    className="font-bold ml-2 text-red-500">
                                     Login
                                 </Link>
                             </p>

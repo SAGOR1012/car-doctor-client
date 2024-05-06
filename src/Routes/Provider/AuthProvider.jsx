@@ -3,7 +3,6 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswo
 import app from "../../firebase.config";
 import { GoogleAuthProvider } from "firebase/auth";
 
-
 /* firebase rtheke anahoyeche  */
 const auth = getAuth(app);
 /* bivinno jahay same jinis use korar jonne context baano hoyche */
