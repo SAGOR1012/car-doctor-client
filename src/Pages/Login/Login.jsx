@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { CgLaptop } from "react-icons/cg";
+import axios from "axios";
 
 const Login = () => {
 
@@ -18,7 +19,7 @@ const Login = () => {
 
   /* login korar pon location a autometic niye jabe seita thik korar jonne path location lage  */
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   /* navigate kora  */
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    // console.log(email, password);
 
     /* reset error */
     setLoginError('')
@@ -38,17 +39,37 @@ const Login = () => {
 
     singInUser(email, password)
       .then((result) => {
-        console.log(result.user);
-        /* success login alert */
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Successfully Login",
-          showConfirmButton: false,
-          timer: 1500
-        });
+        // console.log(result.user);
 
-        navigate(location?.state ? location?.state : '/')
+        /* access token er jonne eita use kora hoyche . login er process er sathe eitar kono relation nai */
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email };
+
+        /* get access token  */
+        axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+          .then(res => {
+            console.log(res.data);
+
+            if (res.data.success) {
+
+              /* success login alert */
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Successfully Login",
+                showConfirmButton: false,
+                timer: 1500
+              });
+
+              /* login in krar por kon locations a niye jabe seita korar jonne location use kora hoyeche  */
+              navigate(location?.state ? location?.state : '/')
+
+            }
+          })
+
+
+
       })
       .catch((error) => {
         console.log(error);

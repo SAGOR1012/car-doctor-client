@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: '/checkout/:id',
         element: <PrivetRoute><CheckOut></CheckOut></PrivetRoute>,
-        loader: ({ params }) => fetch(`https://car-doctor-server-nine-brown.vercel.app/services/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`)
       },
       {
         path: '/userbookings',

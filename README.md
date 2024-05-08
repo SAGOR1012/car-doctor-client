@@ -15,5 +15,6 @@ Currently, two official plugins are available:
       6.firebase
       7.sweetAlert (for showing alert)
       8.firebase init
+      9.axios
   -->
   <!-- -->

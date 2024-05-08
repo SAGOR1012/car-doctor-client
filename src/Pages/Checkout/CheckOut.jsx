@@ -36,7 +36,7 @@ const CheckOut = () => {
 
         /* data pathate hobe fetch kore  */
 
-        fetch('https://car-doctor-server-nine-brown.vercel.app/bookings', {
+        fetch('http://localhost:5000/bookings', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

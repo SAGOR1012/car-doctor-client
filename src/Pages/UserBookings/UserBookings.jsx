@@ -2,21 +2,30 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Routes/Provider/AuthProvider";
 import BookingTableRow from "./BookingTableRow";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const UserBookings = () => {
     const { user } = useContext(AuthContext);
 
     /* login kora user sob bookigs list dekhanor jonne dynamic url use kora hoyeche */
-    const url = `https://car-doctor-server-nine-brown.vercel.app/bookings?email=${user?.email}`
+    const url = `http://localhost:5000/bookings?email=${user?.email}`
 
     /* login kora user jokhn booking dibe tokhn ei state er moddhe save hoye thakbe  */
     const [userBookings, setUserBookings] = useState([]);
 
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setUserBookings(data));
-    }, [])
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(data => setUserBookings(data));
+
+        /* cookie er jonne eto kuchu kora lagce , normally uporer comment kora code use korleo hobe */
+        axios.get(url, { withCredentials: true })
+            .then((res) => {
+                // console.log(res.data);
+                setUserBookings(res.data);
+
+            })
+    }, [url])
 
     /* delete function  */
     const handleDelete = (id) => {
@@ -34,7 +43,7 @@ const UserBookings = () => {
         }).then((result) => {
 
             if (result.isConfirmed) {
-                fetch(`https://car-doctor-server-nine-brown.vercel.app/bookings/${id}`, {
+                fetch(`http://localhost:5000/bookings/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
